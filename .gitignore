@@ -1,0 +1,4 @@
+.env
+.venv/
+.env/
+en_example_pipeline_ner_new/
