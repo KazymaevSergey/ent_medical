@@ -1,24 +1,28 @@
+import sys
+from unittest.mock import MagicMock
+
+# Патчинг torch.classes перед импортом Streamlit
+sys.modules['torch._classes'] = MagicMock()
+sys.modules['torch.classes'] = MagicMock()
+
+
+
+
 import streamlit as st
 import spacy_streamlit
+
 import pandas as pd
 import spacy
 
 
 
-st.set_page_config(
-    page_title="Медицинский NER-анализатор",
-    page_icon="🏥",
-    layout="wide"
-)
 
-custom_css = """
-<style>
-    .stTextArea textarea {font-size: 18px !important;}
-    .stMarkdown h2 {color: #2b5876 !important;}
-    .entity-box {border-radius: 5px !important;}
-</style>
-"""
-st.markdown(custom_css, unsafe_allow_html=True)
+
+nlp = spacy.load('en_example_pipeline_ner_new')
+
+
+
+
 
 # Заголовок с описанием
 st.title("🏥 Анализатор медицинских текстов")
@@ -98,7 +102,7 @@ with st.expander("✍️ Ввод текста", expanded=True):
 
 # Обработка текста
 if st.button("🔍 Анализировать текст") and text:
-    nlp = spacy.load('en_example_pipeline_ner_new')
+    
     entities = extract_entities(text)
     with st.spinner("Анализ текста..."):
         
